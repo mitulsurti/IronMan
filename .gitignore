@@ -1,0 +1,92 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.env.local
+*.env.*.local
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+credentials/
+.azure/
+.kite/
+
+# Python
+.venv/
+venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+
+# Local databases and database runtime files
+*.db
+*.sqlite
+*.sqlite3
+*.sqlite3-journal
+*.db-journal
+*.dump
+*.sql.gz
+postgres-data/
+ironman-postgres/
+
+# Logs and runtime output
+*.log
+logs/
+*.pid
+*.pid.lock
+
+# JavaScript / TypeScript
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+frontend/dist/
+dist/
+build/
+.vite/
+*.tsbuildinfo
+
+# Test and runtime-generated files
+.pytest_cache/
+coverage.xml
+junit.xml
+test-results/
+reports/
+tmp/
+temp/
+
+# IDE and editor-local files
+.vscode/
+.idea/
+*.iml
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.DS_Store
+Thumbs.db
+
+# Build and packaging artifacts
+*.whl
+*.tar.gz
+*.zip
+.eggs/
+
+# OS/editor swap files
+*.swp
+*.swo
+*~

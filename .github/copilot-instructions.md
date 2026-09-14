@@ -1,0 +1,51 @@
+# IronMan Implementation Rules
+
+These rules are permanent architecture constraints.
+
+- Keep IronMan a personal-use modular monolith; do not introduce microservices or distributed infrastructure without an explicit architecture decision.
+- The append-only transaction and cash ledgers are the financial history of record. Corrections use compensating events; never silently edit or delete posted events.
+- Portfolio state is derived from ledger history. Every material analysis and recommendation references an immutable, reproducible `PortfolioStateVersion`.
+- Use canonical internal instrument identity. Provider, exchange, broker, and symbol identifiers are mappings, never canonical identity.
+- External data enters through provider-independent contracts carrying provenance, source/ingestion timestamps, vintage, licensing metadata, and quality/freshness state.
+- Deterministic code is authoritative for money, holdings, cash, tax lots, valuation, risk, policy constraints, performance, and attribution. LLMs may explain results but may not calculate authoritative financial values.
+- Broker integration is structurally read-only. No order placement, modification, cancellation, GTT, transfer, or other broker-write capability may exist in application or AI tools.
+- AI is advisory only. It may read approved data, run approved deterministic analysis, research, synthesize, and draft recommendations; it may not mutate financial truth, IPS, risk limits, approvals, or audit history.
+- Human execution is mandatory and occurs outside IronMan.
+- Stale, invalid, missing, or conflicting critical data must fail closed and cannot produce an actionable recommendation.
+- External observations never silently overwrite internal history; discrepancies become reconciliation exceptions.
+- Financial values use exact decimal/numeric representations with explicit currency, FX, rounding, settlement, timezone, and day-count conventions.
+- Provenance and auditability are mandatory. The ledger, policy, audit trail, and portfolio must be recoverable independently of AI infrastructure.
+- Phase 2 ledger convention: event type/leg semantics determine direction; posted input quantities and amounts are positive where practical, and application converts them to signed state deltas.
+- Tax-lot consumption is explicit and immutable when required; do not hard-code FIFO, average cost, or another universal allocation policy into the ledger.
+- Financial event ordering is effective UTC timestamp, explicit deterministic sequence/order, then immutable event identity.
+- Account and currency/security transfers use linked balanced legs with a shared transfer/correlation identity; no implicit creation or destruction is allowed.
+- Native currency is authoritative at ledger level. FX conversions are explicit and retain pair, rate, timestamp, source, quote convention, and purpose; no implicit cross-currency aggregation.
+- Fees, taxes, and charges are explicit financial components or legs and are not silently hidden in security price or cost basis.
+- Phase 2 corporate-action scope is limited to splits, bonus/share adjustments, and dividends/income, with extensible lifecycle structure.
+- `PortfolioStateVersion` is an immutable reconstructed snapshot referencing ledger boundary, holdings, cash, tax-lots, policy/data context where available, calculation/convention version, creation time, and immutable identity.
+- Financial timestamps are UTC instants with explicit effective/financial dates and relevant market/account timezone metadata.
+- Posted financial history is protected in depth: application UPDATE/DELETE prohibition, separated database permissions, and database-level protection where practical.
+- SQLite is the explicit local development/test database; PostgreSQL remains a compatible future/production target and SQLite validation must never be represented as PostgreSQL validation.
+- Investment intelligence is the primary product objective; development is question-driven and vertical-slice oriented.
+- Phase 3 intelligence uses one controlled orchestrator and bounded specialist capabilities, not an uncontrolled agent swarm.
+- AI performs research, reasoning, and synthesis; deterministic software owns financial calculations, portfolio context, data-quality gates, and policy/risk gates.
+- `NO_ACTION`, `WAIT`, and `RESEARCH_REQUIRED` are first-class intelligence outcomes; critical invalid, stale, missing, or conflicting data fails closed.
+- Human remains the sole investment decision maker and executor; Phase 2 is closed and should not be reopened for general hardening.
+- Model Gateway is the boundary for model invocation; provider/model identity is configuration, not investment-domain logic.
+- Azure model deployments are supported through provider-independent model contracts; real providers remain optional configuration.
+- The Research Agent is bounded and advisory; retrieved content is untrusted data and model output is untrusted until application validation.
+- AI cannot perform authoritative financial arithmetic or mutate financial state; one controlled orchestrator remains the agentic architecture with no autonomous swarm.
+- Azure model invocation occurs through `ModelGateway`; provider/deployment identity is configuration, not investment-domain logic.
+- Fake model implementations remain available for deterministic tests; model output is untrusted until application validation.
+- Model credentials are never stored in repository/project knowledge; model, prompt, token, latency, and status provenance should be retained for research traceability.
+- Fundamental + Thesis is currently one bounded capability: it interprets deterministic financial observations and assesses thesis impact without calculating authoritative metrics, mutating stored theses, or making allocation decisions.
+- Stored `InvestmentThesis` state is not mutated by research capabilities; additional specialist agents require demonstrated workflow value.
+- Deterministic code owns authoritative valuation arithmetic; ValuationAgent only interprets application-supplied valuation facts and assumptions.
+- Valuation inputs/assumptions must be explicit; insufficient valuation data produces explicit insufficiency, LLM valuation numbers are not authoritative, and no opaque valuation/ranking score is permitted.
+- Portfolio/risk/opportunity-cost reasoning is one bounded capability for now; deterministic portfolio calculations and policy/risk gates remain authoritative.
+- Opportunity cost compares application-supplied alternatives, including `WAIT`/`NO_ACTION`; no opaque portfolio score or autonomous allocation is permitted.
+- Agents cannot override deterministic gates; the orchestrator controls capability sequencing.
+- Research evidence is a provider-independent, first-class application boundary; provenance, licensing, source status, and concrete evidence references are mandatory for material factual claims.
+- Portfolio/risk/opportunity-cost reasoning is one bounded capability for now; deterministic portfolio calculations and policy/risk gates remain authoritative.
+- Opportunity cost compares application-supplied alternatives, including `WAIT`/`NO_ACTION`; no opaque portfolio score or autonomous allocation is permitted.
+- Agents cannot override deterministic gates; the orchestrator controls capability sequencing.

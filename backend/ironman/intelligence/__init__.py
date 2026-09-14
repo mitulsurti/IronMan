@@ -1,0 +1,1 @@
+"""Investment intelligence vertical slices."""
